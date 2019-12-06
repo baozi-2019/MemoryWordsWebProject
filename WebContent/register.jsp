@@ -8,6 +8,16 @@
 </head>
 <link rel="stylesheet" type="text/css" href="css/indexcss.css">
 <body>
+	<script type="text/javascript">
+	function sub() {
+		document.register.action="RegisterServlet";
+		document.register.submit();
+	}
+	function returnuserlogin() {
+		document.register.action="index.html";
+		document.register.submit();
+	}
+	</script>
 	<header><font color="#fffff"><h1>请认真填写以下信息</h1></font></header>
 	<div id="container">
 		<div id="center">
@@ -25,7 +35,7 @@
 							}
 						%>
 					</font>
-					<form action="RegisterServlet" method="post">
+					<form action="RegisterServlet" method="post" name="register">
 						<table>
 							<tr>
 								<td>用户名：</td>
@@ -36,8 +46,8 @@
 								<td><input type="password" name="upwd"></td>
 							</tr>
 							<tr>
-								<td><input type="submit" value="提交"></td>
-								<td><input type="reset" value="取消"></td>
+								<td><input type="button" value="提交" onclick="sub()"></td>
+								<td><input type="button" value="取消" onclick="returnuserlogin()"></td>
 							</tr>
 						</table>
 					</form>
