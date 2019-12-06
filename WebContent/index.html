@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Keywords" content="记忆，单词">
+<link rel="stylesheet" type="text/css" href="css/indexcss.css">
+<title>登录页</title>
+</head>
+<body>
+	 <header><font color="#fffff"><h1>欢迎来背单词</h1></font></header>
+	<div id="container">
+		<div id="center">
+			<div id="table">
+				<div id="tables">
+					<form action="LoginServlet" method="post">
+						<table>
+							<tr>
+								<td>用户名：</td>
+								<td><input type="text" name="uname"></td>
+							</tr>
+							<tr>
+								<td>密&nbsp;&nbsp;码：</td>
+								<td><input type="password" name="upwd"></td>
+							</tr>
+							<tr>
+								<td><input type="submit" value="提交"></td>
+								<td><input type="reset" value="取消"></td>
+							</tr>
+						</table>
+					</form>
+					还没有账号？<a href="register.jsp">注册一个</a>
+				</div>
+			</div>
+		</div>
+	</div>	
+</body>
+	<div id="footer">
+			&copy;by 包子
+		</div>
+</html>
