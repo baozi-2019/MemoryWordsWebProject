@@ -16,9 +16,11 @@
 					<font color="red" size="3">
 						<%
 							Cookie[] cookies = request.getCookies();
-							for (Cookie cookie : cookies) {
-								if ("registerflag".equals(cookie.getName())) {
-									out.print("用户名重复，请重新输入");
+							if (cookies != null){
+								for (Cookie cookie : cookies) {
+									if ("registerflag".equals(cookie.getName())) {
+										out.print("用户名重复，请重新输入");
+									}
 								}
 							}
 						%>
