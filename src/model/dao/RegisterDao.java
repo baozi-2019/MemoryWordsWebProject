@@ -49,7 +49,9 @@ public class RegisterDao {
 			e.printStackTrace();
 		} finally {
 			try {
+				if (stmt != null) {
 				stmt.close();
+				}
 				preStmt.close();
 				connection.close();
 			} catch (SQLException e) {
