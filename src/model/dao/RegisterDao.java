@@ -19,13 +19,13 @@ public class RegisterDao {
 		ResultSet resualt = null;
 		try {
 			connection = DBUtil.getMysqlConn();
-			preStmt = connection.prepareStatement("select * from [user] where name=?");
+			preStmt = connection.prepareStatement("select * from user where name=?");
 			preStmt.setString(1, name);
 			resualt = preStmt.executeQuery();
 			if (resualt.next()) {
 				return 0;
 			} else {
-				preStmt = connection.prepareStatement("insert into [user](name,password,admin,times) values (?,?,0,2)");
+				preStmt = connection.prepareStatement("insert into user(name,password,admin,times) values (?,?,0,2)");
 				preStmt.setString(1, name);
 				preStmt.setString(2, password);
 				int flag = preStmt.executeUpdate();

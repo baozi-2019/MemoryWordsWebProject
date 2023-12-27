@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import modle.entity.Words;
 public class MemeryWordsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Vector<Words> words;
+	private Vector<Integer> leftRememberTimes;
 	private int i;
 	private String name;
 
@@ -40,6 +42,7 @@ public class MemeryWordsServlet extends HttpServlet {
 		}
 		Vector<Words> wordss = LoadWordsDao.loadwords(name);
 		words = wordss;
+		leftRememberTimes = words.stream().map(Words::getTimes).collect(Collectors.toCollection(Vector::new));
 		i = 0;
 		Words word;
 		for (; i < this.words.size(); i++) {
@@ -61,10 +64,10 @@ public class MemeryWordsServlet extends HttpServlet {
 		String wordFlag = request.getParameter("word_flag");
 		if ("yes".equals(wordFlag)) {
 			int temp = words.elementAt(i).getTimes() - 1;
-			words.elementAt(i).setTimes(temp);
+			leftRememberTimes.set(i, temp);
 		} else if ("no".equals(wordFlag)) {
 			int temp = words.elementAt(i).getTimes() + 1;
-			words.elementAt(i).setTimes(temp);
+			leftRememberTimes.set(i, temp);
 		} else if ("return".equals(wordFlag)) {
 			i = -1;
 		} else if ("end".equals(wordFlag)) {
@@ -84,11 +87,12 @@ public class MemeryWordsServlet extends HttpServlet {
 		}
 		int j, studyGet = 0, studyNotGet = 0;
 		for (j = 0; j < words.size(); j++) {
-			if (words.elementAt(j).getTimes() == 0) {
+			if (leftRememberTimes.elementAt(j).compareTo(words.elementAt(j).getTimes()) < 0) {
 				studyGet++;
 			} else {
 				studyNotGet++;
 			}
+			words.elementAt(j).setTimes(leftRememberTimes.elementAt(j));
 		}
 		if (studyNotGet == 0) {
 			response.sendRedirect("allstudied.jsp");

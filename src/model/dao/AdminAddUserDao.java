@@ -19,25 +19,25 @@ public class AdminAddUserDao {
 		ResultSet resualt = null;
 		try {
 			connection = DBUtil.getMysqlConn();
-			preStmt = connection.prepareStatement("select * from [user] where name=?");
+			preStmt = connection.prepareStatement("select * from user where name=?");
 			preStmt.setString(1, name);
 			resualt = preStmt.executeQuery();
 			if (resualt.next()) {
 				return 0;
 			} else {
-				if (admin == true) {
-					preStmt = connection.prepareStatement("insert into [user](name,password,admin,times) values (?,?,1,2)");
+				if (admin) {
+					preStmt = connection.prepareStatement("insert into user(name,password,admin,times) values (?,?,1,2)");
 					preStmt.setString(1, name);
 					preStmt.setString(2, password);
 					preStmt.executeUpdate();
 				} else {
-					preStmt = connection.prepareStatement("insert into [user](name,password,admin,times) values (?,?,0,2)");
+					preStmt = connection.prepareStatement("insert into user(name,password,admin,times) values (?,?,0,2)");
 					preStmt.setString(1, name);
 					preStmt.setString(2, password);
 					preStmt.executeUpdate();
 					stmt = connection.createStatement();
 					String DBTname = name + "Words"; 
-					stmt.executeUpdate("select * into " + DBTname + " from words");
+					stmt.executeUpdate("create table " + DBTname + " select * from words");
 				}
 			}
 		} catch (SQLException | DBConnException e) {

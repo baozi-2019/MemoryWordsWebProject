@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DBUtil {
 
     private static final String MYSQL_CONNECTION = "com.mysql.cj.jdbc.Driver";
-    private static final String MYSQL_URL = "jdbc:mysql://192.168.9.122:3306/MemoryWords?useSSL=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&logger=Slf4JLogger&profileSQL=true&maxQuerySizeToLog=65535";
+    private static final String MYSQL_URL = "jdbc:mysql://192.168.9.122:3306/memory_words?useSSL=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
     private static final String MYSQL_NAME = "root";
     private static final String MYSQL_PASSWORD = "root";
 

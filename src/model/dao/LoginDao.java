@@ -53,7 +53,7 @@ public class LoginDao {
 		ResultSet resualt = null;
 		try {
 			connection = DBUtil.getMysqlConn();
-			String sql = "select admin from [user] where name=? and password=?";
+			String sql = "select admin from user where name=? and password=?";
 			preStmt = connection.prepareStatement(sql);
 			preStmt.setNString(1, user.getName());
 			preStmt.setNString(2, user.getPassword());

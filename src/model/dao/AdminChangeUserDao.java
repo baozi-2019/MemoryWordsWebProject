@@ -17,11 +17,11 @@ public class AdminChangeUserDao {
 		ResultSet resualt = null;
 		try {
 			connection = DBUtil.getMysqlConn();
-			preStmt = connection.prepareStatement("select * from [user] where name=?");
+			preStmt = connection.prepareStatement("select * from user where name=?");
 			preStmt.setString(1, name);
 			resualt = preStmt.executeQuery();
 			if (resualt.next()) {
-				preStmt = connection.prepareStatement("update [user] set password=? where name=?");
+				preStmt = connection.prepareStatement("update user set password=? where name=?");
 				preStmt.setString(1, password);
 				preStmt.setString(2, name);
 				preStmt.executeUpdate();

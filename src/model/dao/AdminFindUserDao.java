@@ -18,7 +18,7 @@ public class AdminFindUserDao {
 		ResultSet resualt = null;
 		try {
 			connection = DBUtil.getMysqlConn();
-			preStmt = connection.prepareStatement("select * from [user] where name=?");
+			preStmt = connection.prepareStatement("select * from user where name=?");
 			preStmt.setString(1, name);
 			resualt = preStmt.executeQuery();
 			if (resualt.next()) {
