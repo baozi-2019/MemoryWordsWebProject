@@ -1,5 +1,8 @@
 package model.dao;
 
+import exeption.DBConnException;
+import util.DBUtil;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,23 +11,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UpdateWordsDao {
-	private static final String CONNECTION = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String URL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=MemoryWords";
-	private static final String NAME = "sa";
-	private static final String PASSWORD = "baozi199929";
 	
 	public static int changeWords(String english, String chinese, int times) {
-		try {
-			Class.forName(CONNECTION);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		Connection connection = null;
 		PreparedStatement preStmt = null;
 		Statement stmt = null;
 		ResultSet resualt = null;
 		try {
-			connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+			connection = DBUtil.getMysqlConn();
 			preStmt = connection.prepareStatement("select * from words where english=?");
 			preStmt.setString(1, english);
 			resualt = preStmt.executeQuery();
@@ -37,7 +31,7 @@ public class UpdateWordsDao {
 			} else {
 				return 0;
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DBConnException e) {
 			e.printStackTrace();
 		}
 		
@@ -45,17 +39,12 @@ public class UpdateWordsDao {
 	}
 	
 	public static int deleteWords(String english) {
-		try {
-			Class.forName(CONNECTION);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		Connection connection = null;
 		PreparedStatement preStmt = null;
 		Statement stmt = null;
 		ResultSet resualt = null;
 		try {
-			connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+			connection = DBUtil.getMysqlConn();
 			preStmt = connection.prepareStatement("select * from words where english=?");
 			preStmt.setString(1, english);
 			resualt = preStmt.executeQuery();
@@ -66,7 +55,7 @@ public class UpdateWordsDao {
 			} else {
 				return 0;
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DBConnException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -86,30 +75,25 @@ public class UpdateWordsDao {
 	}
 	
 	public static int addWords(String english, String chinese) {
-		try {
-			Class.forName(CONNECTION);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		Connection connection = null;
 		PreparedStatement preStmt = null;
 		Statement stmt = null;
 		ResultSet resualt = null;
 		try {
-			connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+			connection = DBUtil.getMysqlConn();
 			preStmt = connection.prepareStatement("select * from words where english=?");
 			preStmt.setString(1, english);
 			resualt = preStmt.executeQuery();
 			if (resualt.next()) {
 				return 0;
 			} else {
-				connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+//				connection = DBUtil.getMysqlConn();
 				preStmt = connection.prepareStatement("insert into words(english,chinese,times) values (?,?,2)");
 				preStmt.setString(1, english);
 				preStmt.setString(2, chinese);
 				preStmt.executeUpdate();
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DBConnException e) {
 			e.printStackTrace();
 		} finally {
 			try {

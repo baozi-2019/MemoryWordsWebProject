@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import exeption.DBConnException;
 import modle.entity.Users;
+import util.DBUtil;
 
 /**
 * 
@@ -25,10 +27,6 @@ import modle.entity.Users;
  */
 
 public class LoginDao {
-	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String URL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=MemoryWords";
-	private static final String NAME = "sa";
-	private static final String PASSWORD = "baozi199929";
 	
 	/**
 	 * 
@@ -50,17 +48,11 @@ public class LoginDao {
 	 */
 	public static int login(Users user) {
 		int flag = 0;
-		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return -1;
-		}
 		Connection connection = null;
 		PreparedStatement preStmt = null;
 		ResultSet resualt = null;
 		try {
-			connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+			connection = DBUtil.getMysqlConn();
 			String sql = "select admin from [user] where name=? and password=?";
 			preStmt = connection.prepareStatement(sql);
 			preStmt.setNString(1, user.getName());
@@ -79,7 +71,10 @@ public class LoginDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -2;
-		} finally {
+		} catch (DBConnException e) {
+			e.printStackTrace();
+			return -1;
+        } finally {
 			try {
 				resualt.close();
 				preStmt.close();

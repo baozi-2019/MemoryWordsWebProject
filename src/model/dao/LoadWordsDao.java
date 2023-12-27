@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import exeption.DBConnException;
 import modle.entity.Words;
+import util.DBUtil;
 
 /**
 * 
@@ -26,24 +28,15 @@ import modle.entity.Words;
  */
 
 public class LoadWordsDao {
-	private static final String CONNECTION = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String URL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=MemoryWords";
-	private static final String NAME = "sa";
-	private static final String PASSWORD = "baozi199929";
 	
 	public static Vector<Words> loadwords(String name) {
 		Vector<Words> wordSet = new Vector<Words>();
 		name += "Words";
-		try {
-			Class.forName(CONNECTION);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		Connection connection = null;
 		Statement stmt = null;
 		ResultSet result = null;
 		try {
-			connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+			connection = DBUtil.getMysqlConn();
 			stmt = connection.createStatement();
 			String sql = "select * from " + name + " where times > 0";
 			result = stmt.executeQuery(sql);
@@ -54,7 +47,7 @@ public class LoadWordsDao {
 				word.setTimes(result.getInt(3));
 				wordSet.add(word);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DBConnException e) {
 			e.printStackTrace();
 		} finally {
 			try {
